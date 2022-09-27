@@ -1,0 +1,13 @@
+{
+    "name": "tonke/wfflix",
+    "authors": [
+        {
+            "name": "TonkesKoen",
+            "email": "tonkeskoen@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "classmap": ["./"]
+    }
+}
