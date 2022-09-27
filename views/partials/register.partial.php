@@ -1,7 +1,7 @@
 <header>
 
 
-<form class="formcontainer" action="register" method="post">
+<form class="formcontainer" action="<?=Request::buildUri( '/register')?>" method="post">
 
         <label for="name"><b>Naam</b></label><Br>
         <input type="text" placeholder="Naam*" name="name" id="name" value="<?=$name?>" required><br>
@@ -28,7 +28,7 @@
         ?>
     <div class="container"><br><Br><br>
         <h3>Heb je al een account?</h3>
-        <button onclick="window.location.href='/login'" type="button" class="btn">Inloggen</button>
+        <button onclick="window.location.href='<?=Request::buildUri( '/login')?>'" type="button" class="btn">Inloggen</button>
     </div>
 
 </form>

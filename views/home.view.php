@@ -1,46 +1,47 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="public/css/styles.css">
-    <title>ADSD</title>
-  </head>
-  <body>
-  <?php
-require 'views/partials/nav.partial.php'
-  ?>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="container">
-                <div class="row">
-                    <div class="col"></div>
-                    <div class="col-7"><h1><?= $homeTitle; ?>!</h1></div>
-                    <div class="col"></div>
+<?php
+require 'views/partials/head.partial.php';
+?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="container">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-7"><h1><?= $homeTitle; ?>!</h1>
+                    <p class="lead">Vergroot je programmeer kennis!</p>
                 </div>
-                <!--temporary---------------------------------------------------------->
-                <div class="helpcontainer" style="margin-left: 30%;">
-                    <br><br><br><br>
-                    <h4>(temporary) admin view pages help:</h4>
-                <h5><?= $userview; ?></h5>
-                <h5><?= $categorieview; ?></h5>
-                <h5><?= $videosview; ?></h5><br>
-                    <h5>email: user@wfflix.com pass: user</h5>
-                    <h5>email: admin@wfflix.com pass: admin</h5>
-                </div>
-                <!--temporary---------------------------------------------------------->
+                <div class="col"></div>
             </div>
 
-            </div>
+            <hr>
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <img src="<?= Request::buildUri('/public/img/background.jpg') ?>"
+                         class="d-block mx-lg-auto img-fluid"
+                         alt="php example" width="700" height="500" loading="lazy">
+                </div>
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">Volg tutorials</h1>
+                    <p class="lead">Volg het op school, in de trein of gewoon op de WC!</p>
 
+                </div>
+            </div>
+            <hr>
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">Heb jij moeite met PHP, C#, javascript of één van de vele
+                        andere
+                        programmeertalen?</h1>
+                    <a class="btn btn-primary" href="<?= Request::buildUri('/courses') ?>">Start nu!</a>
+                </div>
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <img src="<?= Request::buildUri('/public/img/languages.png') ?>"
+                         class="d-block mx-lg-auto img-fluid"
+                         alt="languages" width="700" height="500" loading="lazy">
+                </div>
+            </div>
         </div>
     </div>
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    </body>
-</html>
+</div>
+<?php
+require 'views/partials/foot.partial.php';
+?>

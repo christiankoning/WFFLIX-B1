@@ -8,14 +8,15 @@
 
 $router->define([
     '' => ['controllers/home.php', 0],
-    'teachers' => ['controllers/teachers.php', 0],
     'contact' => ['controllers/contact.php', 0],
+    'faq' => ['controllers/faq.php', 0],
     'courses' =>['controllers/categories.php', 1],
     'courses/start' =>['controllers/courses.php', 1],
     'courses/view' => ['controllers/courseDetails.php', 1],
 
+
 //    account
-    'login' => ['controllers/Login.php', 0],
+    'login' => ['controllers/login.php', 0],
     'register' => ['controllers/register.php', 0],
     'logout' => ['controllers/logout.php', 1],
     'verify/send' => ['controllers/verify/send.php', 0],
@@ -26,17 +27,17 @@ $router->define([
 
 //Profile
     'profile' =>  ['controllers/ProfileControllers/profile.php',1],
-    'password_reset' =>  ['controllers/ProfileControllers/password_reset.php',1],
-    'Profile_update' =>  ['controllers/ProfileControllers/updateProfile.php',1],
+    'password-reset' =>  ['controllers/ProfileControllers/passwordReset.php',1],
+    'profile-update' =>  ['controllers/ProfileControllers/updateProfile.php',1],
 
 //admin routes
 
 //users
     'admin' => ['controllers/admin/admin.php', 2],
     'admin/users' => ['controllers/admin/viewUsers.php', 2],
-    'admin/users/create' => ['controllers/admin/createUsers.php', 2],
-    'admin/users/update' => ['controllers/admin/updateUsers.php', 2],
-    'admin/users/delete' => ['controllers/admin/deleteUsers.php',2],
+    'admin/users/create' => ['controllers/admin/createUsers.php', 3],
+    'admin/users/update' => ['controllers/admin/updateUsers.php', 3],
+    'admin/users/delete' => ['controllers/admin/deleteUsers.php',3],
 
 //videos
     'admin/videos' => ['controllers/admin/viewVideos.php', 2],

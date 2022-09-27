@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="/public/css/styles.css">
+    <link rel="stylesheet" href="<?=Request::buildUri( '/public/css/styles.css')?>">
     <title>ADSD</title>
 </head>
 <body>
@@ -24,7 +24,7 @@ require 'views/partials/nav.partial.php'
             </div>
             <header>
 
-                <form class="formcontainer" action="/verify/password" method="post">
+                <form class="formcontainer" action="<?=Request::buildUri( '/verify/password')?>" method="post">
 
                     <label for="code"><b>Code</b></label><Br>
                     <input type="text" placeholder="Code*" name="code" id="code" value="<?=$code?>" required readonly="readonly"><br>

@@ -5,8 +5,8 @@
             <h5 class="card-title text-primary"><?= $course['title'] ?></h5>
             <p class="card-text text-secondary"><?= $course['description'] ?> </p>
 
-            <form method="post" action="/courses/view">
-            <input type="hidden" name="courseId" value="<?= $course['id'] ?>" />
+            <form method="post" action="<?=Request::buildUri( '/courses/view')?>">
+            <input type="hidden" name="videoId" value="<?= $course['id'] ?>" />
             <input type="hidden" name="courseSize" value="<?= $courseSize ?>" />
                 <button class="btn btn-primary" type="submit" <?=$courseSize <= $progress || Auth::isAdmin() ? '' : 'disabled' ?>>Ga naar onderdeel</button>
             </form>
