@@ -1,5 +1,4 @@
 <?php
-
 require 'models/Verify.php';
 require 'models/Users.php';
 
@@ -9,8 +8,7 @@ $code = "";
 $password = "";
 $passwordRepeat = "";
 
-//Main function
-
+//change password method
 function changePassword($database) {
     //External values needed inside function
     global $code;
@@ -66,22 +64,22 @@ function changePassword($database) {
 
     //get a verify object
     $VERIFY = new Verify($database);
-    //get verify codes for a email
-    $verifyCode = $VERIFY->show($email);
     //check if there is a verify code for this email
-    if (empty($verifyCode['msg'])) {
+    if (!$VERIFY->verifiyCodeExists($email)) {
         return "Ongeldige email";
     }
+    //get verify codes for a email
+    $verifyCode = $VERIFY->show($email);
     //compare the verify codes if they correct
-    if ($verifyCode['msg'][0]['verifyCode'] != $code) {
+    if ($verifyCode['verifyCode'] != $code) {
         return "Ongeldige code";
     }
     //check if the verify code is of type password
-    if ($verifyCode['msg'][0]['type'] != 2) {
+    if ($verifyCode['type'] != 2) {
         return "Ongeldige code";
     }
     //remove the verify code since its now used
-    $VERIFY->destory($verifyCode['msg'][0]['id']);
+    $VERIFY->destory($verifyCode['id']);
 
     //Options for hashing the password amount of layers of hashing
     $pwoptions = ['cost' => 9,];
@@ -91,10 +89,10 @@ function changePassword($database) {
     //get a user object
     $USERS = new Users($database);
     //update the password of the user
-    $USERS->editPassword($hashPassword, $verifyCode['msg'][0]['userId']);
+    $USERS->editPassword($hashPassword, $verifyCode['userId']);
 
     //send the user to login
-    header('Location: /login');
+    header('Location: '.Request::buildUri( '/login'));
 
     return 'success';
 }

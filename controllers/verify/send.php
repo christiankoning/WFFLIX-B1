@@ -1,5 +1,4 @@
 <?php
-
 //set the default return info
 $email = "Unknown";
 $header = "Error";

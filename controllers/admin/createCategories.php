@@ -26,7 +26,7 @@ if (!empty($_POST))
             {
                 $CATEGORIES = new Categories($database);
                 $CATEGORIES->create($categoryName,$categoryDesc);
-               return header('location: /admin/categories');
+               return header('location: '.Request::buildUri( '/admin/categories'));
             }
         }
         //check which input is empty

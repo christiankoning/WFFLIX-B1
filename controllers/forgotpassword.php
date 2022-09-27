@@ -1,6 +1,4 @@
 <?php
-
-require 'models/Login.php';
 require 'models/Verify.php';
 require 'controllers/Key.php';
 require 'controllers/Mail.php';
@@ -9,9 +7,8 @@ require 'models/Users.php';
 //Set value to empty so input for doesn't error out for an value not beeing set
 $email = "";
 
-//Main function
-
-function forgotpassword() {
+//forgot password method
+function forgotpassword($database) {
     //External values needed inside function
     global $email;
     global $database;
@@ -35,20 +32,22 @@ function forgotpassword() {
     }
 
     //get the user data by email
-    $DBpass = Login::getDataForEmail($email);
-
+    $USER = new Users($database);
     //check if the email exists
-    if (empty($DBpass['msg'])) {
+    if (!$USER->checkEmailExist($email)) {
         return "Email is niet bij ons bekend!";
     }
 
+    //get the data from the email when you are sure the email exists
+    $DBpass = $USER->getDataForEmail($email);
+
     //check if the acount is activated
-    if (!$DBpass['msg'][0]['active']) {
+    if (!$DBpass['active']) {
         return "Account is nog niet geactiveerd controleer je email.";
     }
 
-    $id = $DBpass['msg'][0]['id'];
-    $name = $DBpass['msg'][0]['name'];
+    $id = $DBpass['id'];
+    $name = $DBpass['name'];
 
     //generate a unique key for validation
     $code = Key::GenKey();
@@ -60,11 +59,11 @@ function forgotpassword() {
     $verifyCheck = $VERIFY->show($email);
 
     //check if user already has a verify code if so edit it otherwise create a new one
-    if (empty($verifyCheck['msg'])) {
+    if (!$VERIFY->verifiyCodeExists($email)) {
         $VERIFY->create($id, $code, 2);
     }
     else {
-        $VERIFY->edit($verifyCheck['msg'][0]['id'], $code, 2);
+        $VERIFY->edit($verifyCheck['id'], $code, 2);
     }
 
     //send a email to the user
@@ -75,7 +74,7 @@ function forgotpassword() {
     $_SESSION["crossPageData"] = "Wijzig je wachtwoord";
 
     //Inform the user with info
-    header('Location: /verify/send');
+    header('Location: '.Request::buildUri( '/verify/send'));
 
     return 'success';
 }
@@ -83,7 +82,7 @@ function forgotpassword() {
 //if user submits execute
 if ( !empty($_POST) ) {
     //run the main function and return any errors to the user
-    $error = forgotpassword();
+    $error = forgotpassword($database);
 }
 
 

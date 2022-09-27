@@ -46,11 +46,11 @@ class StudentCourses
         }
     }
 
-    public function courseExist($studentId, $id)
+    public function courseExist($studentId, $courseId)
     {
         try {
             //executes the search query
-            $query = $this->conn->query('SELECT * FROM studentCourses WHERE studentId =? AND courseId =?', [$studentId, $id]);
+            $query = $this->conn->query('SELECT * FROM studentCourses WHERE studentId =? AND courseId =?', [$studentId, $courseId]);
             //returns the search query
             if (!empty($query['msg'])) {
                 return true;
@@ -77,9 +77,16 @@ class StudentCourses
     }
 
     //DELETE
-    public function destory()
+    public function destory($studentId, $courseId)
     {
+        try {
+            //executes the query
+            $query = $this->conn->query('DELETE FROM studentCourses WHERE studentId =? AND courseId =?', [$studentId, $courseId]);
 
+        } catch (Exception $exception) {
+            //return exception message
+            die(var_dump($exception->getMessage()));
+        }
     }
 }
 

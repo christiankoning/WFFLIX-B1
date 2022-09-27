@@ -1,8 +1,7 @@
 <?php
-
-require 'models/Profile.php';
-$PROFILE = new Profile($database);
-if($stmt= $PROFILE->getProfileData($_SESSION['loggedInUser'])) {
+require 'models/Users.php';
+$PROFILE = new Users($database);
+if($stmt= $PROFILE->showOne($_SESSION['loggedInUser'])) {
 
     if (sizeof($stmt) > 0) {
         //if there are users return false

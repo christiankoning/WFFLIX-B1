@@ -4,7 +4,7 @@ $idName = 'videoId';
 
 //check if the id has been set
 if (!isset($id)) {
-    return header('location: /admin/videos');
+    return header('location: '.Request::buildUri( '/admin/videos'));
 }
 //set model en model description for the view
 $model = 'videos';
@@ -25,7 +25,7 @@ if (isset($id) && isset($_POST['confirmDelete'])) {
     try {
         //execute query
         $VIDEOS->destory($id);
-        return header('location: /admin/videos');
+        return header('location: '.Request::buildUri( '/admin/videos'));
     } catch (Exception $exception) {
         //show exception message
         die(var_dump($exception->getMessage()));

@@ -4,7 +4,7 @@ require 'models/Categories.php';
 $id = $_POST['categoryId'];
 //check if id is set to prevent accidental errors
 if (!isset($id)) {
-    return header('location: /admin/categories');
+    return header('location: '.Request::buildUri( '/admin/categories'));
 }
 $CATEGORIES = new Categories($database);
 //Query from the database
@@ -26,7 +26,7 @@ if (isset($id) && isset($_POST['categoryName']) && isset($_POST['categoryDescrip
             //execute query if all the statements are valid
             $CATEGORIES->edit($categoryName, $categoryDesc, $id);
             //return to the overview page
-            return header('location: /admin/categories');
+            return header('location: '.Request::buildUri( '/admin/categories'));
             //check which input is empty
         } else {
             //show error if one or both are empty (categoryName and categoryDescription)

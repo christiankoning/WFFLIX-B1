@@ -12,17 +12,19 @@ class Users
 
     //CREATE
     //Creates a user in the database
-    public function create($name, $email, $pwd, $isAdmin)
+    public function create($name, $email, $pwd, $role)
     {
         try {
             //executes the query
-            $query = $this->conn->query('INSERT INTO users SET name = ?, email=?, password=?, isAdmin=?, createdAt = NOW(), updatedAt = NOW()', [$name, $email, $pwd, $isAdmin]);
+            $query = $this->conn->query('INSERT INTO users SET name = ?, email=?, password=?, role=?, createdAt = NOW(), updatedAt = NOW()', [$name, $email, $pwd, $role]);
 
         } catch (Exception $exception) {
             //return exception message
             die(var_dump($exception->getMessage()));
         }
     }
+
+
 
     //READ
     //Gets a specific user from the database by id
@@ -40,16 +42,15 @@ class Users
         }
     }
 
-    //Gets a specific id from the database by email
-    public function showOneId($email)
-    {
+    //Get data from user based on his email
+    public function getDataForEmail($email) {
         try {
-            //executes the search query
-            $query = $this->conn->query('SELECT id FROM users WHERE email = ?', [$email]);
-            //returns the search query
+
+            $query = $this->conn->query('SELECT * FROM users WHERE email = ?', [$email]);
+
             return $query['msg'][0];
-            //catches an exception
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             //return exception message
             die(var_dump($exception->getMessage()));
         }
@@ -70,13 +71,29 @@ class Users
         }
     }
 
+    //check if a email exists (returns true/false)
+    public function checkEmailExist($email) {
+        try {
+            $query = $this->conn->query('SELECT * FROM users WHERE email = ?', [$email]);
+
+            if (!empty($query['msg'])) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Exception $e) {
+            return false;
+        }
+    }
     //UPDATE
     //Updates a specific category in the database
-    public function edit($name, $email, $isAdmin, $id)
+    public function edit($name, $email, $role, $id)
     {
         try {
             //executes the update query
-            $query = $this->conn->query('UPDATE users SET name = ?, email=?, isAdmin=?, updatedAt = NOW() WHERE id = ?', [$name, $email, $isAdmin, $id]);
+            $query = $this->conn->query('UPDATE users SET name = ?, email=?, role=?, updatedAt = NOW() WHERE id = ?', [$name, $email, $role, $id]);
         } //catches an exception
         catch (Exception $exception) {
             //return exception message
@@ -84,6 +101,7 @@ class Users
         }
     }
 
+    //update the password
     public function editPassword($password, $id)
     {
         try {
@@ -96,6 +114,7 @@ class Users
         }
     }
 
+    //update the active column
     public function activate($id)
     {
         try {

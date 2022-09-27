@@ -43,11 +43,28 @@ class Verify
             //executes the query
             $query = $this->conn->query('SELECT verify.verifyCode, verify.userId, verify.id, verify.type FROM verify LEFT JOIN users ON users.id=verify.userId WHERE email = ? ', [$email]);
 
-            return $query;
+            return $query['msg'][0];
 
         } catch (Exception $exception) {
             //return exception message
             die(var_dump($exception->getMessage()));
+        }
+    }
+
+    //check if a verify code exists (returns true/false)
+    public function verifiyCodeExists($email) {
+        try {
+            $query = $this->conn->query('SELECT verify.verifyCode, verify.userId, verify.id, verify.type FROM verify LEFT JOIN users ON users.id=verify.userId WHERE email = ? ', [$email]);
+
+            if (!empty($query['msg'])) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Exception $e) {
+            return false;
         }
     }
 

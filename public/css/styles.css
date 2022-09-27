@@ -16,23 +16,18 @@ body {
 }
 
 /*NAV */
+
 .container {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
 }
 
-header {
-    background-color: var(--darkGray);
-    margin-bottom: 20px;
-    overflow: hidden;
+/*!*navbar logo*!*/
+
+.bg-dark {
+    background-color: var(--darkGray) !important;
 }
 
-header::after {
-    content: '';
-    display: table;
-    clear: both;
-}
-/*navbar logo*/
 .logo {
     float: left;
     color: var(--white);
@@ -51,33 +46,6 @@ header::after {
     background-color: var(--red);
     border: 2px solid var(--lightGray);
     margin: 0;
-}
-
-nav {
-    float: right;
-}
-
-nav ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-nav li {
-    display: inline-block;
-    margin-left: 70px;
-    padding: 25px 10px
-}
-
-nav a {
-    font-size: 15px;
-    color: var(--white);
-    text-decoration: none;
-    text-transform: uppercase;
-}
-
-nav a:hover {
-    color: var(--lightGray);
 }
 
 /*End of nav */
@@ -201,4 +169,34 @@ th{color: var(--white)}
     background-color: black;
     border: 10px solid white;
     color: white;
+}
+
+/*faq page css*/
+.hr-line{
+    width: 50%;
+    margin: auto;
+
+}
+.faq-page {
+    color: white;
+    cursor: pointer;
+    padding: 30px 20px;
+    width: 40%;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    margin: auto;
+}
+.faq-body{
+    margin: auto;
+    width: 50%;
+    color:white;
+
+}
+
+.accordion-button::after{
+background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e")
+}
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e")
 }

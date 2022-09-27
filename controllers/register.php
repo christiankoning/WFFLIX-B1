@@ -1,7 +1,4 @@
 <?php
-
-
-require 'models/register.php';
 require 'models/Verify.php';
 require 'controllers/Key.php';
 require 'controllers/Mail.php';
@@ -14,14 +11,14 @@ $password = '';
 $passwordRepeat = '';
 
 //Main function
-function register() {
+function register($database) {
 
     //External values needed inside function
     global $name;
     global $email;
     global $password;
     global $passwordRepeat;
-    global $database;
+
 
     //check if name value is in the post
     if (!isset($_POST['name'])) {
@@ -49,8 +46,11 @@ function register() {
     $password = $_POST['psw'];
     $passwordRepeat = $_POST['psw-repeat'];
 
+    //create a users object
+    $USERS = new Users($database);
+
     //check if there is already an account with this email
-    if (Register::checkEmailExist($email)) {
+    if ($USERS->checkEmailExist($email)) {
         return "Email is bij ons al geregistreerd";
     }
 
@@ -85,12 +85,10 @@ function register() {
     $hashPassword = password_hash($password, PASSWORD_BCRYPT, $pwoptions);
 
     //register the user
-    Register::createUser($name, $email, $hashPassword);
+    $USERS->create($name, $email, $hashPassword, 0);
 
-    //get a user object
-    $USERS = new Users($database);
-    //get the user id of the user that just registerd
-    $id = $USERS->showOneId($email);
+    //get the user id of the user that just registered
+    $id = $USERS->getDataForEmail($email)['id'];
 
     //generate a unique key for validation
     $code = Key::GenKey();
@@ -98,7 +96,7 @@ function register() {
     //get a verify object
     $VERIFY = new Verify($database);
     //store the verify code for the just registered user
-    $VERIFY->create($id['id'], $code, 1);
+    $VERIFY->create($id, $code, 1);
 
     //send a email with the info for verifying ur account
     Mail::send($email, "Activeer je WFFlix account", "\nBeste ".$name.",\n\nActiveer je WFFlix account.\n\nKlik op de onderstaande link om je account te activeren.\nwww.wfflix.nl/verify/activate?email=".$email."&key=".$code."\n\nMet vriendelijke groet,\nTeam WFFlix\n\nDit is een automatische mail.");
@@ -108,14 +106,14 @@ function register() {
     $_SESSION["crossPageData"] = "Verifeer je account";
 
     //Inform the user with info
-    header('Location: /verify/send');
+    header('Location: '.Request::buildUri( '/verify/send'));
     return "Success";
 }
 
 //if user submits execute
 if ( !empty($_POST) ) {
     //run the main function and return any errors to the user
-    $error = register();
+    $error = register($database);
 }
 
 require 'views/register.view.php';

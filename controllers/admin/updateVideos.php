@@ -7,7 +7,7 @@ $id = $_POST['videoId'];
 //check if id is set to prevent accidental errors
 if (!isset($id))
 {
-    return header('location: /admin/videos');
+    return header('location: '.Request::buildUri( '/admin/videos'));
 }
 //Query to get the specific video
 $VIDEOS = new Videos($database);
@@ -42,7 +42,7 @@ if (isset($_POST['videoTitle']) && isset($_POST['videoDescription']) && isset($_
                 //execute query if all the statements are valid
                 $VIDEOS->edit($videoTitle, $videoDesc, $categoryId, $videoLink, $id);
                 //return to the video overview page
-                return header('location: /admin/videos');
+                return header('location: '.Request::buildUri( '/admin/videos'));
             }
 
             //check which input is empty

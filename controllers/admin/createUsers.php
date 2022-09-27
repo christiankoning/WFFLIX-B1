@@ -12,7 +12,7 @@ if (!empty($_POST))
             $userEmail =$_POST['userEmail'];
             $userPwd = $_POST['userPsw'];
             $userPwd2 = $_POST['userPsw2'];
-            $isAdmin = $_POST['isAdmin'];
+            $userRole = $_POST['userRole'];
             //validate the username
             if(!preg_match('/^[A-Za-z]/', $userName))
             {
@@ -46,8 +46,8 @@ if (!empty($_POST))
                 $psw = password_hash($userPwd, PASSWORD_DEFAULT);
                 //execute query
                 $USERS = new Users($database);
-                $USERS->create($userName,$userEmail,$psw, $isAdmin);
-                return header('location: /admin/users');
+                $USERS->create($userName,$userEmail,$psw, $userRole);
+                return header('location: '.Request::buildUri( '/admin/users'));
             }
         }
         //check which input is empty

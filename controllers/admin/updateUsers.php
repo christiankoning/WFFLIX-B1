@@ -5,7 +5,7 @@ $id = $_POST['userId'];
 //check if id is set to prevent accidental errors
 if (!isset($id))
 {
-    return header('location: /admin/users');
+    return header('location: '.Request::buildUri( '/admin/users'));
 }
 //Query from the database
 $USERS = new Users($database);
@@ -14,16 +14,16 @@ $user = $USERS->showOne($id);
 //data from the database
 $userName = $user['name'];
 $userEmail = $user['email'];
-$userIsAdmin = $user['isAdmin'];
+$userRole = $user['role'];
 
 
 //Check if the form data excist (only the id exisist at the start)
-if (isset($id) && isset($_POST['userName']) && isset($_POST['userEmail']) && isset($_POST['userIsAdmin'])) {
+if (isset($id) && isset($_POST['userName']) && isset($_POST['userEmail']) && isset($_POST['userRole'])) {
     try {
         //Connecting post data to variables for easy adjustments
         $userName = $_POST['userName'];
         $userEmail = $_POST['userEmail'];
-        $userIsAdmin = $_POST['userIsAdmin'];
+        $userRole = $_POST['userRole'];
         //Check if username and email are not empty
         if (!empty($userName) && !empty($userEmail)) {
             //validate the email adress
@@ -36,9 +36,9 @@ if (isset($id) && isset($_POST['userName']) && isset($_POST['userEmail']) && iss
                 $error = 'Gebruikersnaam moet langer zijn dan 3 karakters, mag niet langer zijn dan 32 karakters en de gebruikersnaam moet starten met een letter!';
             } else {
                 //execute query if all the statements are valid
-                $USERS->edit($userName, $userEmail, $userIsAdmin, $id);
+                $USERS->edit($userName, $userEmail, $userRole, $id);
                 //return to the overview page
-                return header('location: /admin/users');
+                return header('location: '.Request::buildUri( '/admin/users'));
             }
             //check which input is empty
         } else {

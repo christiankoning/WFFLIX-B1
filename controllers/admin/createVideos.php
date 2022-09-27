@@ -47,7 +47,7 @@ if (!empty($_POST))
                 //execute query
                 $VIDEOS = new Videos($database);
                 $VIDEOS->create($videoTitle, $videoDesc, $categoryId, $videoLink);
-                return header('location: /admin/videos');
+                return header('location: '.Request::buildUri( '/admin/videos'));
             }
         }
         //check which input is empty

@@ -1,14 +1,12 @@
 <?php
-
-require 'models/Login.php';
+require 'models/Users.php';
 
 //Set value to empty so input for doesn't error out for an value not beeing set
 $email = '';
 $password = '';
 
-//Main function
-
-function login() {
+//Login method
+function login($database) {
     //External values needed inside function
     global $email;
     global $password;
@@ -43,20 +41,21 @@ function login() {
     }
 
     //get the user data by email
-    $DBpass = Login::getDataForEmail($email);
+    $USER = new Users($database);
+    $DBpass = $USER->getDataForEmail($email);
 
     //check if the email exists
-    if (empty($DBpass['msg'])) {
+    if (!$USER->checkEmailExist($email)) {
         return "Email is niet bij ons bekend!";
     }
 
     //check if the acount is activated
-    if (!$DBpass['msg'][0]['active']) {
+    if (!$DBpass['active']) {
         return "Account is nog niet geactiveerd controleer je email.";
     }
 
     //check if password is correct
-    if (!password_verify($password, $DBpass['msg'][0]['password'])) {
+    if (!password_verify($password, $DBpass['password'])) {
         return "Incorrect wachtwoord!";
     }
 
@@ -65,10 +64,10 @@ function login() {
 
     //set session data to keep a user logged in for a time span
     $_SESSION['loggedIn'] = TRUE;
-    $_SESSION['isAdmin'] = $DBpass['msg'][0]['isAdmin'];
-    $_SESSION['loggedInUser'] = $DBpass['msg'][0]['id'];
+    $_SESSION['role'] = $DBpass['role'];
+    $_SESSION['loggedInUser'] = $DBpass['id'];
     //send user back to home
-    header('Location: /');
+    header('Location: '.Request::buildUri( '/'));
 
     return 'success';
 }
@@ -76,7 +75,7 @@ function login() {
 //if user submits execute
 if ( !empty($_POST) ) {
     //run the main function and return any errors to the user
-    $error = login();
+    $error = login($database);
 }
 
 

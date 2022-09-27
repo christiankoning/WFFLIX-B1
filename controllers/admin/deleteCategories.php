@@ -5,7 +5,7 @@ $idName = 'categoryId';
 
 //check if the id has been set
 if (!isset($id)) {
-    return header('location: /admin/categories');
+    return header('location: '.Request::buildUri( '/admin/categories'));
 }
 //set model en model description for the view
 $CATEGORIES = new Categories($database);
@@ -26,7 +26,7 @@ if (isset($id) && isset($_POST['confirmDelete'])) {
     try {
         //execute query
         $CATEGORIES->destory($id);
-        return header('location: /admin/categories');
+        return header('location: '.Request::buildUri( '/admin/categories'));
     } catch (Exception $exception) {
         //show exception message
         die(var_dump($exception->getMessage()));

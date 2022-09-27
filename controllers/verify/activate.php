@@ -1,5 +1,4 @@
 <?php
-
 require 'models/Verify.php';
 require 'models/Users.php';
 
@@ -15,26 +14,27 @@ if (!empty($_GET["email"])) {
     if (!empty($_GET['key'])) {
         //get a verify object
         $VERIFY = new Verify($database);
-        //get verify codes for a email
-        $verifyCode = $VERIFY->show($_GET["email"]);
         //check if there is a verify code for this email
-        if (!empty($verifyCode['msg'])) {
+        if ($VERIFY->verifiyCodeExists($_GET["email"])) {
+            //get verify codes for a email
+            $verifyCode = $VERIFY->show($_GET["email"]);
+
             //compare the verify codes if they correct
-            if ($verifyCode['msg'][0]['verifyCode'] === $_GET['key']) {
+            if ($verifyCode['verifyCode'] === $_GET['key']) {
                 //check if the verify code is of type register
-                if ($verifyCode['msg'][0]['type'] == 1) {
+                if ($verifyCode['type'] == 1) {
                     //remove the verify code since its now used
-                    $VERIFY->destory($verifyCode['msg'][0]['id']);
+                    $VERIFY->destory($verifyCode['id']);
                     //get a user object
                     $USERS = new Users($database);
                     //activate the user account
-                    $USERS->activate($verifyCode['msg'][0]['userId']);
+                    $USERS->activate($verifyCode['userId']);
 
                     //inform the user
                     $header = "Je account is geactiveerd!";
                     $info = "Je wordt automatisch doorgestuurd...";
                     //auto redirect the user to login after 3 seconds
-                    header("refresh:3; url=/login");
+                    header("refresh:3; url=".Request::buildUri( '/login'));
                 }
                 else {
                     $header = "Incorrecte activatie code";

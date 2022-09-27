@@ -1,15 +1,14 @@
 <?php
-
 require 'models/Videos.php';
 require 'models/StudentCourses.php';
 
 // Get the courseId from the courses page
-$id = $_POST['courseId'];
+$id = $_POST['videoId'];
 
 //check if id is set to prevent accidental errors
 if (!isset($id))
 {
-    return header('location: /courses');
+    return header('location: '.Request::buildUri( '/courses'));
 }
 
 if (isset($_POST['courseSize']))
@@ -27,7 +26,7 @@ $video = $VIDEOS->showOne($id);
 
 $STUDENTCOURSES = new StudentCourses($database);
 
-if (Auth::isAdmin())
+if (Auth::isAdmin() || Auth::isTeacher())
 {
     $progress = $courseSize;
 }

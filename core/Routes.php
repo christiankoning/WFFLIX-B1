@@ -6,6 +6,12 @@ class Routes
 
     public function define($routes)
     {
+        foreach ($routes as $key => $route) {
+            if (empty($routes[Request::buildUri($key)])) {
+                $routes[Request::buildUri($key)] = $routes[$key];
+                unset($routes[$key]);
+            }
+        }
         $this->routes = $routes;
     }
 
@@ -13,12 +19,20 @@ class Routes
     {
         if (array_key_exists($uri, $this->routes)){
 
-            if ($this->routes[$uri][1] == 2) {
+            if ($this->routes[$uri][1] == 3) {
                 if (Auth::isAdmin()) {
                     return $this->routes[$uri][0];
                 }
                 else {
-                    header('Location: /');
+                    header('Location: '.Request::buildUri( '/'));
+                }
+            }
+            elseif ($this->routes[$uri][1] == 2) {
+                if (Auth::isAdmin() || Auth::isTeacher()) {
+                    return $this->routes[$uri][0];
+                }
+                else {
+                    header('Location: '.Request::buildUri( '/'));
                 }
             }
             elseif ($this->routes[$uri][1] == 1) {
@@ -26,7 +40,7 @@ class Routes
                     return $this->routes[$uri][0];
                 }
                 else {
-                    header('Location: /login');
+                    header('Location: '.Request::buildUri( '/login'));
                 }
             }
             else {
