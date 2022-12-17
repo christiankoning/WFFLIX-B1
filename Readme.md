@@ -22,9 +22,6 @@ User:
 > pass: user
 
 Teacher:
-> email: stephan@windesheim.nl
-
-> pass: stephan123
 
 Admin:
 > email: admin@wfflix.com
